@@ -1,8 +1,12 @@
 package lesson14;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class MainOutput {
     public static void main(String[] args) {
@@ -76,9 +80,6 @@ public class MainOutput {
         }
 
         //5 задание
-
-
-
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ContactSerializable.txt"))) {
             List<Contact> contactList = new ArrayList<Contact>();
             for (int i = 0; i < 20; i++){
@@ -92,6 +93,16 @@ public class MainOutput {
 
         }catch (IOException e){
             System.err.println("ERROR: " + e.getMessage());
+        }
+
+        //6
+        try (Stream<Path> pathFind =
+                     Files.find(Paths.get("E:\\JAVA\\HillelProject"), 100, (path, attr) -> attr.isRegularFile())) {
+            System.out.println("Found " + pathFind.count() + " files");
+//            pathFind.forEach(System.out::println);
+        } catch (IOException e) {
+            System.out.println("Cannot resolve the path");
+            e.printStackTrace();
         }
     }
 
